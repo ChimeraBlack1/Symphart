@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MeetupController!{% endblock %}
+
+{% block body %}
+    {{form(form)}}
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+    sports = ["Soccer", "Football", "Basketball"];
+
+    var x = document.getElementById("sport_meetup_sport");
+    x.setAttribute("placeholder", "Select a sport");
+
+    for (sport of sports) {
+        var x = document.createElement("OPTION");
+        x.setAttribute("value", sport);
+        var t = document.createTextNode(sport);
+        x.appendChild(t);
+        document.getElementById("sport_meetup_sport").appendChild(x);
+
+    }
+
+    switch(sport){
+        case "Soccer":
+            positions = ["forward", "midfield", "defense", "keeper"];
+            break;
+        case "Football":
+            positions = ["running back", "tackle", "linesman", "defense"];
+        case "Basketball":
+            positions = ["Forward", "defense"];
+        default:
+            positions = ["Select a Sport"];
+    }
+    
+
+    for (position of positions) {
+        var x = document.createElement("OPTION");
+        x.setAttribute("value", position);
+        var t = document.createTextNode(position);
+        x.appendChild(t);
+        document.getElementById("sport_meetup_positions").appendChild(x);
+
+    }
+{# 
+    var x = document.createElement("OPTION");
+    x.setAttribute("value", "volvo");
+    var t = document.createTextNode("Volvo");
+    x.appendChild(t);
+    document.getElementById("sport_meetup_positions").appendChild(x); #}
+</script>
+    
+{% endblock %}
