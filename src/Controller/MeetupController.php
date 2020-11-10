@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sport;
 use App\Form\SportMeetupType;
 use App\Entity\Position;
+use App\Entity\PlayerList;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -91,6 +92,55 @@ class MeetupController extends AbstractController
                         ->orderBy('u.sport', 'ASC');
                 },
                 'choice_label' => 'sport',
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Create Position'
+            ])
+            ->getForm();
+        
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $mgr = $this->getDoctrine()->getManager();
+            $mgr->persist($pos);
+            $mgr->flush();
+        }
+
+        return $this->render('meetup/pos.html.twig', [
+            'sports' => $sports,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+    * @Route("/newpos2", name="new_pos2")
+    */
+    public function newPos2(Request $request){
+        $sports = $this->getDoctrine()->getRepository('App:Sport')->findAll();
+
+        $pos = new PlayerList();
+
+        $form = $this->createFormBuilder($pos)
+            ->add('name', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('sport', EntityType::class, [
+                'class' => Sport::class,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.sport', 'ASC');
+                },
+                'choice_label' => 'sport',
+            ])
+            ->add('position', EntityType::class, [
+                'class' => Position::class,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'choice_label' => 'name',
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Create Position'

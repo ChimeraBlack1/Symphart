@@ -21,12 +21,8 @@ class NewPlayerType extends AbstractType
             ->add('name')
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('s')
-                        ->orderBy('s.sport', 'ASC');
-                },
-                'choice_label' => 'sport',
             ])
+            ->add('position')
         ;
     }
 

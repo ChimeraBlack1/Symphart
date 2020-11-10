@@ -91,7 +91,7 @@ class PlayerList
     /**
      * @return Collection|Position[]
      */
-    public function getPosition(): Collection
+    public function getPosition(): ?Collection
     {
         return $this->position;
     }

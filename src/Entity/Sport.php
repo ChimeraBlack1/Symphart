@@ -33,6 +33,10 @@ class Sport
      * @ORM\ManyToOne(targetEntity=PlayerList::class, inversedBy="sport")
      */
     private $playerList;
+    
+    public function __toString() {
+        return $this->sport;
+    }
 
     public function __construct()
     {

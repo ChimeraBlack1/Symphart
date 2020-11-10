@@ -7,12 +7,15 @@ use App\Form\NewPlayerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
 class NewPlayerController extends AbstractController
 {
     /**
      * @Route("/new/player", name="new_player")
      */
-    public function index()
+    public function index(Request $request)
     {
         $player = new PlayerList();
         $form = $this->createForm(NewPlayerType::class, $player);
