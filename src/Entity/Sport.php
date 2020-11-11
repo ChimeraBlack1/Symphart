@@ -33,6 +33,11 @@ class Sport
      * @ORM\ManyToOne(targetEntity=PlayerList::class, inversedBy="sport")
      */
     private $playerList;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ListOfPlayers::class, mappedBy="sport", orphanRemoval=true)
+     */
+    private $listOfPlayers;
     
     public function __toString() {
         return $this->sport;
@@ -41,6 +46,7 @@ class Sport
     public function __construct()
     {
         $this->positions = new ArrayCollection();
+        $this->listOfPlayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,6 +105,37 @@ class Sport
     public function setPlayerList(?PlayerList $playerList): self
     {
         $this->playerList = $playerList;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ListOfPlayers[]
+     */
+    public function getListOfPlayers(): Collection
+    {
+        return $this->listOfPlayers;
+    }
+
+    public function addListOfPlayer(ListOfPlayers $listOfPlayer): self
+    {
+        if (!$this->listOfPlayers->contains($listOfPlayer)) {
+            $this->listOfPlayers[] = $listOfPlayer;
+            $listOfPlayer->setSport($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListOfPlayer(ListOfPlayers $listOfPlayer): self
+    {
+        if ($this->listOfPlayers->contains($listOfPlayer)) {
+            $this->listOfPlayers->removeElement($listOfPlayer);
+            // set the owning side to null (unless already changed)
+            if ($listOfPlayer->getSport() === $this) {
+                $listOfPlayer->setSport(null);
+            }
+        }
 
         return $this;
     }

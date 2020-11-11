@@ -21,8 +21,12 @@ class NewPlayerType extends AbstractType
             ->add('name')
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,
+                'mapped' => false,
             ])
-            ->add('position')
+            ->add('position', EntityType::class, [
+                'class' => Position::class,
+                'mapped' => false,
+            ])
         ;
     }
 

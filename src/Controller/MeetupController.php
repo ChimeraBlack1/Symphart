@@ -6,6 +6,7 @@ use App\Entity\Sport;
 use App\Form\SportMeetupType;
 use App\Entity\Position;
 use App\Entity\PlayerList;
+use App\Entity\ListOfPlayers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -101,6 +102,9 @@ class MeetupController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $unmappedField = $form['sport']->getData();
+            dump($unmappedField);
+            die();
             $mgr = $this->getDoctrine()->getManager();
             $mgr->persist($pos);
             $mgr->flush();
@@ -118,10 +122,10 @@ class MeetupController extends AbstractController
     public function newPos2(Request $request){
         $sports = $this->getDoctrine()->getRepository('App:Sport')->findAll();
 
-        $pos = new PlayerList();
+        $pos = new ListOfPlayers();
 
         $form = $this->createFormBuilder($pos)
-            ->add('name', TextType::class, [
+            ->add('playerName', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -133,6 +137,7 @@ class MeetupController extends AbstractController
                         ->orderBy('u.sport', 'ASC');
                 },
                 'choice_label' => 'sport',
+                // 'mapped' => false,
             ])
             ->add('position', EntityType::class, [
                 'class' => Position::class,
@@ -150,6 +155,10 @@ class MeetupController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            // $form->getData()
+            // $unmappedField = $form['sport']->getData();
+            // dump($unmappedField);
+            // die();
             $mgr = $this->getDoctrine()->getManager();
             $mgr->persist($pos);
             $mgr->flush();

@@ -22,11 +22,11 @@ class PositionRepository extends ServiceEntityRepository
     // /**
     //  * @return Position[] Returns an array of Position objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findBySportID($value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+            ->andWhere('p.sport = :val')
             ->setParameter('val', $value)
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(10)
@@ -34,7 +34,7 @@ class PositionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Position

@@ -3,5 +3,10 @@
 {% block title %}Hello NewPlayerController!{% endblock %}
 
 {% block body %}
-    {{form(form)}}
+    
+    {{form_start(form)}}
+    {{form_row(form.sport)}}
+    {# {{form_widget(form)}} #}
+        <button type="submit">save</button>
+    {{form_end(form)}}
 {% endblock %}

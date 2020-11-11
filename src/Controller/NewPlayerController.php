@@ -21,6 +21,12 @@ class NewPlayerController extends AbstractController
         $form = $this->createForm(NewPlayerType::class, $player);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $unmappedField = $form['sport']->getData();
+            dump($unmappedField->getId());
+            die();
+            // $mgr = $this->getDoctrine()->getManager();
+            // $mgr->persist($player);
+            // $mgr->flush();
             // ... save the meetup, redirect etc.
         }
 

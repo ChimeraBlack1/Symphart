@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PositionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Position
      * @ORM\ManyToOne(targetEntity=PlayerList::class, inversedBy="position")
      */
     private $playerList;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ListOfPlayers::class, mappedBy="position")
+     */
+    private $listOfPlayers;
+
+    public function __construct()
+    {
+        $this->listOfPlayers = new ArrayCollection();
+    }
 
     public function __toString() {
         return $this->name;
@@ -73,6 +85,37 @@ class Position
     public function setPlayerList(?PlayerList $playerList): self
     {
         $this->playerList = $playerList;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ListOfPlayers[]
+     */
+    public function getListOfPlayers(): Collection
+    {
+        return $this->listOfPlayers;
+    }
+
+    public function addListOfPlayer(ListOfPlayers $listOfPlayer): self
+    {
+        if (!$this->listOfPlayers->contains($listOfPlayer)) {
+            $this->listOfPlayers[] = $listOfPlayer;
+            $listOfPlayer->setPosition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListOfPlayer(ListOfPlayers $listOfPlayer): self
+    {
+        if ($this->listOfPlayers->contains($listOfPlayer)) {
+            $this->listOfPlayers->removeElement($listOfPlayer);
+            // set the owning side to null (unless already changed)
+            if ($listOfPlayer->getPosition() === $this) {
+                $listOfPlayer->setPosition(null);
+            }
+        }
 
         return $this;
     }
